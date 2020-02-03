@@ -1,10 +1,10 @@
+package cloners;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.*;
 
 public class Cloner {
@@ -101,39 +101,6 @@ public class Cloner {
 
         ObjectCloner() { }
 
-//        @Override
-//        public <T> T deepClone(T object) {
-//
-//            T instance = null;
-//            try {
-//                instance = new ObjectInstantiator<>((Class<T>) object.getClass()).createInstance();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            for (Field field : object.getClass().getDeclaredFields()) {
-//                try {
-//                    //object.getClass().getDeclaredField(field.getName()).setAccessible(true);
-//                    field.setAccessible(true);
-//                    if (field.getType().isPrimitive() || immutables.contains(field.getType())) {
-//                        int modifier = field.getModifiers();
-//                        if (!Modifier.isStatic(modifier)) {
-//                            field.set(instance, field.get(object));
-//                        }
-////                        field.set(instance, field.get(object));
-//                    } else {
-//                        int modifier = field.getModifiers();
-//                        if (!Modifier.isStatic(modifier)) {
-//                            field.set(instance, Cloner.this.deepClone(field.get(object)));
-//                        }
-//                    }
-//                } catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            return instance;
-//        }
-
         @Override
         public <T> T deepClone(T object) {
 
@@ -146,16 +113,13 @@ public class Cloner {
 
             for (Field field : object.getClass().getDeclaredFields()) {
                 try {
-                    //object.getClass().getDeclaredField(field.getName()).setAccessible(true);
                     field.setAccessible(true);
+                    int modifier = field.getModifiers();
                     if (field.getType().isPrimitive() || immutables.contains(field.getType())) {
-                        int modifier = field.getModifiers();
                         if (!Modifier.isStatic(modifier)) {
                             field.set(instance, field.get(object));
                         }
-//                        field.set(instance, field.get(object));
                     } else {
-                        int modifier = field.getModifiers();
                         if (!Modifier.isStatic(modifier)) {
                             field.set(instance, Cloner.this.deepClone(field.get(object)));
                         }

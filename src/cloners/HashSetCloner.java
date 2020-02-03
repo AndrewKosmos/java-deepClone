@@ -1,22 +1,24 @@
-import java.lang.reflect.Field;
-import java.util.LinkedHashSet;
+package cloners;
 
-public class LinkedHashSetCloner implements IDeepCloner {
+import java.lang.reflect.Field;
+import java.util.HashSet;
+
+public class HashSetCloner implements IDeepCloner {
     private IDeepCloner superCloner;
 
-    public LinkedHashSetCloner(IDeepCloner superCloner) {
+    public HashSetCloner(IDeepCloner superCloner) {
         this.superCloner = superCloner;
     }
 
     @Override
     public <T> T deepClone(T object) {
-        LinkedHashSet<Object> linkedHashSet = (LinkedHashSet) object;
-        LinkedHashSet resultSet = new LinkedHashSet();
+        HashSet hashSet = (HashSet) object;
+        HashSet resultSet = new HashSet();
         Field[] fields = object.getClass().getFields();
         for (Field f : fields) {
             f.setAccessible(true);
         }
-        for (final Object o : linkedHashSet) {
+        for (final Object o : hashSet) {
             resultSet.add(superCloner.deepClone(o));
         }
         return (T) resultSet;

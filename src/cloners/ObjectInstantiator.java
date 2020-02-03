@@ -1,3 +1,5 @@
+package cloners;
+
 public class ObjectInstantiator <T> {
 
     private Class<T> aClass;
